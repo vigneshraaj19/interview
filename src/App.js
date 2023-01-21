@@ -1,23 +1,34 @@
 import logo from './logo.svg';
 import './App.css';
+import React,{ createContext, useEffect, useState } from 'react';
+import Datatable from './Datatable';
+
+export const UserContext = createContext()
+
 
 function App() {
+  
+  const[user,setuser] =useState([])
+
+  const url="https://61ee1f7ed593d20017dbac50.mockapi.io/students";
+
+  const getMovies =  () => { 
+     fetch(url) 
+  .then((data) => data.json()
+  ) 
+  .then((mvs) => setuser(mvs));
+};
+   getMovies()
+
+  console.log(user)
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+       <UserContext.Provider value={user}>
+        <Datatable user={user} />
+      </UserContext.Provider> 
+   
     </div>
   );
 }
